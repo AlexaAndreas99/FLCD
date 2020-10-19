@@ -2,7 +2,7 @@ class Dictionary:
     def __init__(self):
         self.dict = {}
 
-    def put(self, key, value):
+    def add(self, key, value):
         self.dict[key] = value
 
     def get_free_pos(self):
@@ -16,12 +16,6 @@ class Dictionary:
             if self.dict[i] == value:
                 return i
         return False
-
-    def get_value(self, key):
-        if key in self.dict:
-            return self.dict[key]
-        else:
-            return False
 
     def __str__(self):
         pretty_str = ''

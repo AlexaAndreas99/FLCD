@@ -6,7 +6,7 @@ class SymbolTable:
         self.dict = Dictionary()
 
     def add(self, value):
-        self.dict.put(self.dict.get_free_pos(), value)
+        self.dict.add(self.dict.get_free_pos(), value)
         return self.dict.get_free_pos()
 
     def search(self, value):
