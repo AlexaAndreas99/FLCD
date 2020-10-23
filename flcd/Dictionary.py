@@ -3,13 +3,14 @@ class Dictionary:
         self.dict = {}
 
     def add(self, key, value):
-        self.dict[key] = value
+        if value not in self.dict.values():
+            self.dict[key] = value
 
     def get_free_pos(self):
         if len(self.dict):
             return max(self.dict.keys()) + 1
         else:
-            return 0
+            return 1
 
     def get_key(self, value):
         for i in self.dict:

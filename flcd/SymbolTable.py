@@ -7,7 +7,7 @@ class SymbolTable:
 
     def add(self, value):
         self.dict.add(self.dict.get_free_pos(), value)
-        return self.dict.get_free_pos()
+        return self.search(value)
 
     def search(self, value):
         return self.dict.get_key(value)

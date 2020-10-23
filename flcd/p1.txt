@@ -1,0 +1,5 @@
+intreg sum , dif , a valoare 31 , b valoare 2 ;
+sum valoare a plus b ;
+dif valoare a minus b ;
+afiseaza ( sum ) ;
+afiseaza ( dif ) ;

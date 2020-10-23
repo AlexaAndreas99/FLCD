@@ -1,0 +1,5 @@
+daca ( a micegal b )
+    returneaza b ;
+altfel
+    returneaza a ;
+

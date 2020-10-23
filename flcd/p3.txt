@@ -1,0 +1,9 @@
+intreg remainder valoare 0 ;
+intreg reverse , n valoare 15 ;
+rotatie ( n diferit 0 ) {
+remainder valoare n rest 10 ;
+reverse valoare reverse ori 10 plus remainder ;
+n valoare n impartit 10 ;
+}
+
+returneaza reverse ;
