@@ -21,6 +21,6 @@ class Dictionary:
     def __str__(self):
         pretty_str = ''
         for i in self.dict:
-            pretty_str = pretty_str + str(i) + "-" + str(self.dict[i]) + '\n'
+            pretty_str = pretty_str + str(i) + " -> " + str(self.dict[i]) + '\n'
 
         return pretty_str

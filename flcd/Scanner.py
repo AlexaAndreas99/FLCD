@@ -24,7 +24,7 @@ class Scanner:
 
     def reader(self):
         f = open(self.filename, "r")
-        row = 0
+        row_number = 0
         for x in f:
             result = []
             line = re.split(' |\n', x)
@@ -33,9 +33,8 @@ class Scanner:
             while '' in result:
                 result.remove('')
 
-            self.scanner(result, row)
-            row += 1
-        self.pretty_pif()
+            self.scanner(result, row_number)
+            row_number += 1
 
     def scanner(self, result, line):
 
@@ -53,8 +52,17 @@ class Scanner:
                     print("Lexical Error on line", line, token)
 
     def pretty_pif(self):
+        print("PIF:")
         for i in self.pif:
             print(i[0], "->", i[1])
+
+    def pretty_vst(self):
+        print("Variable st:")
+        print(self.variable_st)
+
+    def pretty_cst(self):
+        print("Constant st:")
+        print(self.constant_st)
 
     def is_identifier(self, token):
         numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
