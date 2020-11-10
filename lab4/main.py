@@ -9,6 +9,7 @@ def menu():
     print("4.Initial state")
     print("5.Final states")
     print("6.Verify a sequence")
+    print("7.Is dfa?")
 
 
 def test():
@@ -38,6 +39,8 @@ if __name__ == '__main__':
             fa.print_initial_state()
         elif i == '5':
             fa.print_final_states()
+        elif i == '7':
+            fa.print_is_dfa()
         elif i == '6':
             s = input("Sequence: ")
             try:

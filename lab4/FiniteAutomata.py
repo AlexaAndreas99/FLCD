@@ -13,6 +13,7 @@ class FiniteAutomata:
         # {A:{'1':'B', '0':'A'},
         #  B:{'1':'B', '0':'C'},
         #  C:{}}
+        self.is_dfa = True
 
     def reader(self):
         f = open("FA.in", "r")
@@ -44,16 +45,21 @@ class FiniteAutomata:
             if res[0] not in self.transitions.keys():
                 self.transitions[res[0]] = {res[1]: res[3]}
             else:
+                if res[1] in self.transitions[res[0]].keys():
+                    self.is_dfa = False
                 self.transitions[res[0]][res[1]] = res[3]
 
     def accepts(self, s):
-        state = self.initial_state[0]
-        for c in s:
-            if c not in self.transitions[state]:
-                raise KeyError
-            state = self.transitions[state][c]
+        if self.is_dfa:
+            state = self.initial_state[0]
+            for c in s:
+                if c not in self.transitions[state]:
+                    raise KeyError
+                state = self.transitions[state][c]
 
-        return state in self.final_states
+            return state in self.final_states
+        else:
+            print("FA is not deterministic")
 
     def print_transitions(self):
         print(self.transitions)
@@ -69,3 +75,6 @@ class FiniteAutomata:
 
     def print_final_states(self):
         print(self.final_states)
+
+    def print_is_dfa(self):
+        print(self.is_dfa)
