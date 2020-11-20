@@ -21,6 +21,11 @@ class Grammar():
                 for prod in productions:
                     self.productions[non_terminal].append(prod.strip().split())
 
+    def non_terminal_productions(self, nt):
+        if nt not in self.productions.keys():
+            return None
+        return self.productions[nt]
+
 
 if __name__ == '__main__':
     g = Grammar()
@@ -29,3 +34,4 @@ if __name__ == '__main__':
     print(g.terminals)
     print(g.start)
     print(g.productions)
+    print(g.non_terminal_productions("S"))
