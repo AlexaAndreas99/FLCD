@@ -1,0 +1,11 @@
+decllist, declaration, simple_type
+., type, IDENTIFIER, NUM, BOOL, SENT
+decllist
+decllist -> decl . decllist | decl
+decl -> type IDENTIFIER
+simple_type -> NUM | BOOL | SENT
+
+
+decllist ::= declaration | declaration "." decllist
+declaration ::= type IDENTIFIER
+simple_type ::= "NUM" | "BOOL" | "SENT"
