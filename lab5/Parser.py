@@ -29,8 +29,29 @@ class Parser:
         self.word = None
 
     def parse(self, word):
-        self.word = word.split()
-        self.conf.ins = self.grammar.start
+        self.word = word
+        self.conf.ins = [self.grammar.start]
+
+        while self.conf.s not in [States.F, States.E]:
+            if self.conf.s == States.Q:
+                if len(self.conf.ins) == 0 and self.conf.i == len(self.word) + 1:
+                    self.success()
+                else:
+                    if self.conf.ins[0] in self.grammar.non_terminals:
+                        self.expand()
+                    else:
+                        if self.conf.i <= len(self.word) and self.conf.ins[0] == self.word[self.conf.i - 1]:
+                            self.advance()
+                        else:
+                            self.momentary_insuccess()
+            else:
+                if self.conf.s == States.B:
+                    if self.conf.ws[-1] in self.grammar.terminals:
+                        self.back()
+                    else:
+                        self.another_try()
+
+        return self.conf.s == States.F
 
     def advance(self):
         self.conf.i += 1
@@ -51,8 +72,7 @@ class Parser:
             self.conf.ws[-1] = (aj[0], aj[1] + 1)
             prod = productions[aj[1] - 1]
             self.conf.ins = productions[aj[1]] + self.conf.ins[len(prod):]
-            print(self.conf.ins)
-        elif self.conf.i == 1 and aj[0] == self.grammar.start:
+        elif self.conf.i == 0 and aj[0] == self.grammar.start:
             self.conf.s = States.E
             raise ParseException()
         else:
@@ -71,3 +91,6 @@ class Parser:
 if __name__ == '__main__':
     grammar = Grammar()
     grammar.read_file("g1.txt")
+    parser = Parser(grammar)
+    print(parser.parse("acbc"))
+    #print(parser.parse("acba"))
