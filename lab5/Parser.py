@@ -1,6 +1,7 @@
 from enum import Enum
 
 from Grammar import Grammar
+from Tree import Tree
 
 
 class ParseException(Exception):
@@ -106,6 +107,12 @@ class Parser:
         self.conf.ins = first_production + self.conf.ins
         print('[expand] -> ', self.conf)
 
+    def build_tree(self):
+        tree = Tree(self.grammar)
+        tree.build_wrapper(self.conf.ws)
+        print(tree)
+        tree.build_table()
+
 
 def g1():
     grammar = Grammar()
@@ -113,6 +120,7 @@ def g1():
     parser = Parser(grammar)
     try:
         print(parser.parse("a c b c"))
+        parser.build_tree()
         # print(parser.parse("a c b a"))
     except ParseException:
         print('Error')
@@ -126,5 +134,5 @@ def g2():
 
 
 if __name__ == '__main__':
-    # g1()
-    g2()
+    g1()
+    # g2()
