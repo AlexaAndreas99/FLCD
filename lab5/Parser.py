@@ -62,7 +62,10 @@ class Parser:
         self.conf.s = States.F
 
     def expand(self):
-        pass
+        non_terminal = self.conf.ins.pop(0)
+        self.conf.ws.append((non_terminal, 1))
+        first_production = self.grammar.non_terminal_productions(non_terminal)[0]
+        self.conf.ins = first_production + self.conf.ins
 
 
 if __name__ == '__main__':
