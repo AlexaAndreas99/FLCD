@@ -7,8 +7,8 @@ class Grammar():
 
     def read_file(self, filename):
         with open(filename, 'r') as f:
-            self.non_terminals = f.readline().strip().split(', ')
-            self.terminals = f.readline().strip().split(', ')
+            self.non_terminals = f.readline().strip().split(' ')
+            self.terminals = f.readline().strip().split(' ')
             self.start = f.readline().strip()
 
             for i in range(len(self.non_terminals)):

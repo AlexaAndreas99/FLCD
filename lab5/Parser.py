@@ -13,6 +13,9 @@ class States(Enum):
     F = 'f'
     E = 'e'
 
+    def __str__(self):
+        return self.value
+
 
 class Configuration:
     def __init__(self):
@@ -20,6 +23,9 @@ class Configuration:
         self.i = 1
         self.ws = []
         self.ins = []
+
+    def __str__(self):
+        return "({}, {}, {}, {})".format(self.s, self.i, self.ws, self.ins)
 
 
 class Parser:
@@ -29,13 +35,15 @@ class Parser:
         self.word = None
 
     def parse(self, word):
-        self.word = word
+        self.word = word.split()
         self.conf.ins = [self.grammar.start]
 
         while self.conf.s not in [States.F, States.E]:
             if self.conf.s == States.Q:
                 if len(self.conf.ins) == 0 and self.conf.i == len(self.word) + 1:
                     self.success()
+                elif len(self.conf.ins) == 0:
+                    self.momentary_insuccess()
                 else:
                     if self.conf.ins[0] in self.grammar.non_terminals:
                         self.expand()
@@ -56,41 +64,67 @@ class Parser:
     def advance(self):
         self.conf.i += 1
         self.conf.ws.append(self.conf.ins.pop(0))
+        print('[advance] -> ', self.conf)
 
     def momentary_insuccess(self):
         self.conf.s = States.B
+        print('[mom ins] -> ', self.conf)
 
     def back(self):
         self.conf.i -= 1
         self.conf.ins.insert(0, self.conf.ws.pop())
+        print('[back] -> ', self.conf)
 
     def another_try(self):
         aj = self.conf.ws[-1]
-        productions = grammar.non_terminal_productions(aj[0])
+        productions = self.grammar.non_terminal_productions(aj[0])
         if aj[1] < len(productions):
             self.conf.s = States.Q
             self.conf.ws[-1] = (aj[0], aj[1] + 1)
             prod = productions[aj[1] - 1]
             self.conf.ins = productions[aj[1]] + self.conf.ins[len(prod):]
-        elif self.conf.i == 0 and aj[0] == self.grammar.start:
+        elif self.conf.i == 1 and aj[0] == self.grammar.start:
             self.conf.s = States.E
+            self.conf.ws.pop()
+            self.conf.ins = [aj[0]]
+            print('[error] -> ', self.conf)
             raise ParseException()
         else:
-            self.conf.ins.insert(0, self.conf.ws.pop()[0])
+            self.conf.ws.pop()
+            prod = productions[aj[1] - 1]
+            self.conf.ins = [aj[0]] + self.conf.ins[len(prod):]
+        print('[ano try] -> ', self.conf)
 
     def success(self):
         self.conf.s = States.F
+        print('[success] -> ', self.conf)
 
     def expand(self):
         non_terminal = self.conf.ins.pop(0)
         self.conf.ws.append((non_terminal, 1))
         first_production = self.grammar.non_terminal_productions(non_terminal)[0]
         self.conf.ins = first_production + self.conf.ins
+        print('[expand] -> ', self.conf)
 
 
-if __name__ == '__main__':
+def g1():
     grammar = Grammar()
     grammar.read_file("g1.txt")
     parser = Parser(grammar)
-    print(parser.parse("acbc"))
-    #print(parser.parse("acba"))
+    try:
+        print(parser.parse("a c b c"))
+        # print(parser.parse("a c b a"))
+    except ParseException:
+        print('Error')
+
+
+def g2():
+    grammar = Grammar()
+    grammar.read_file("g2.txt")
+    parser = Parser(grammar)
+    parser.parse("num y . listen ( y ) .")
+
+
+if __name__ == '__main__':
+    # g1()
+    g2()
