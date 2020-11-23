@@ -119,8 +119,3 @@ class Parser:
         tree.build(self.conf.ws)
         tree.print_table()
 
-
-
-if __name__ == '__main__':
-    # g1()
-    g2()
