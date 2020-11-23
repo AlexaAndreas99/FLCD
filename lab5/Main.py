@@ -7,7 +7,6 @@ def g1(g):
     try:
         parser.parse("a c b c")
         # print(parser.parse("a c b a"))
-        parser.build_tree()
     except ParseException:
         print('Error')
 
@@ -17,7 +16,6 @@ def g2(g):
     try:
         parser.parse("num y . listen ( y ) .")
         # parser.parse("seq i from 1 to half with i = i + 1 : kick . end .")
-        parser.build_tree()
     except ParseException:
         print('Error')
 

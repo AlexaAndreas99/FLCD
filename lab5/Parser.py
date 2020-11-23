@@ -67,7 +67,7 @@ class Parser:
                     else:
                         self.another_try()
 
-        return
+        return self.build_tree()
 
     def advance(self):
         self.conf.i += 1
@@ -118,4 +118,5 @@ class Parser:
         tree = Tree(self.grammar)
         tree.build(self.conf.ws)
         tree.print_table()
+        return tree
 
