@@ -35,25 +35,18 @@ class Parser:
         self.conf = Configuration()
         self.word = None
 
-    def debug(self, i):
+    def _debug(self, i):
         s = '[{}] '.format(i)
         for x in self.conf.ws:
             if type(x) == str:
                 s += str(x) + ' '
         print(s)
 
-    def parse(self, word, iterations=None):
+    def parse(self, word):
         self.word = word.split()
         self.conf.ins = [self.grammar.start]
 
-        it = 0
-        max_it = iterations
-
         while self.conf.s not in [States.F, States.E]:
-            self.debug(it)
-            if max_it is not None and it >= max_it:
-                break
-            it += 1
             if self.conf.s == States.Q:
                 if len(self.conf.ins) == 0 and self.conf.i == len(self.word) + 1:
                     self.success()
@@ -74,7 +67,7 @@ class Parser:
                     else:
                         self.another_try()
 
-        return self.conf.s == States.F
+        return
 
     def advance(self):
         self.conf.i += 1
@@ -123,31 +116,11 @@ class Parser:
 
     def build_tree(self):
         tree = Tree(self.grammar)
-        tree.build_wrapper(self.conf.ws)
-        print(tree)
-        tree.build_table()
+        tree.build(self.conf.ws)
+        tree.print_table()
 
-
-def g1():
-    grammar = Grammar()
-    grammar.read_file("g1.txt")
-    parser = Parser(grammar)
-    try:
-        print(parser.parse("a c b c"))
-        parser.build_tree()
-        # print(parser.parse("a c b a"))
-    except ParseException:
-        print('Error')
-
-
-def g2():
-    grammar = Grammar()
-    grammar.read_file("g2.txt")
-    parser = Parser(grammar)
-    # parser.parse("num y . listen ( y ) .")
-    parser.parse("seq i from 1 to half with i = i + 1 : kick . end .")
 
 
 if __name__ == '__main__':
-    g1()
-    # g2()
+    # g1()
+    g2()
