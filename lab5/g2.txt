@@ -15,7 +15,7 @@ term -> factor | factor * term | factor / term | factor % term
 factor -> ( expression ) | IDENTIFIER | CONSTANT
 iostmt -> listen ( IDENTIFIER ) | speak ( IDENTIFIER )
 structstmt -> condstmt | seqstmt
-condstmt -> cond condition : program end orcond : program end fall : program end | cond condition : program end orcond : program | cond condition : program end
+condstmt -> cond condition : program end orcond condition : program end fall : program end | cond condition : program end orcond condition : program | cond condition : program end
 seqstmt -> seq IDENTIFIER from expression to expression with assignstmt : program end
 condition -> expression relation expression
 relation -> < | <= | == | != | >= | >
