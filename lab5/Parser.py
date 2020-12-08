@@ -42,6 +42,20 @@ class Parser:
                 s += str(x) + ' '
         print(s)
 
+    def parse_file(self, filename):
+        with open(filename, 'r') as f:
+            sequence = ""
+
+            line = f.readline()
+            while line != '':
+                symbol, position = line.split()
+                sequence += symbol + " "
+
+                line = f.readline()
+
+            sequence = sequence[:-1]
+            self.parse(sequence)
+
     def parse(self, word):
         self.word = word.split()
         self.conf.ins = [self.grammar.start]
